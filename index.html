@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enteros Quest - Juegos Matemáticos</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #10162f, #182d59);
+    color: white;
+    min-height: 100vh;
+}
+
+/* ENCABEZADO */
+header {
+    text-align: center;
+    padding: 30px 15px;
+    background: rgba(0,0,0,0.25);
+}
+
+header h1 {
+    font-size: 42px;
+    margin-bottom: 10px;
+}
+
+header p {
+    font-size: 18px;
+}
+
+/* MENÚ */
+nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 20px;
+}
+
+nav button {
+    border: none;
+    padding: 13px 22px;
+    border-radius: 10px;
+    background: #263f78;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+nav button:hover {
+    transform: scale(1.05);
+    background: #3559a0;
+}
+
+/* SECCIONES */
+.seccion {
+    display: none;
+    max-width: 900px;
+    margin: auto;
+    padding: 25px;
+}
+
+.activa {
+    display: block;
+}
+
+/* INICIO */
+.hero {
+    text-align: center;
+    padding: 35px 10px;
+}
+
+.hero h2 {
+    font-size: 32px;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+.boton-principal {
+    border: none;
+    background: #f5b82e;
+    color: #111;
+    padding: 15px 30px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.boton-principal:hover {
+    transform: scale(1.05);
+}
+
+/* APRENDIZAJES */
+.tarjetas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+    margin-top: 25px;
+}
+
+.tarjeta {
+    background: rgba(255,255,255,0.1);
+    padding: 22px;
+    border-radius: 15px;
+    border: 1px solid rgba(255,255,255,0.15);
+}
+
+.tarjeta h3 {
+    margin-bottom: 10px;
+}
+
+/* JUEGOS */
+.juego {
+    background: rgba(0,0,0,0.25);
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.juego h2 {
+    margin-bottom: 12px;
+}
+
+.info {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+    font-size: 18px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.problema {
+    font-size: 35px;
+    font-weight: bold;
+    margin: 30px 0;
+}
+
+.opciones {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.opcion {
+    border: none;
+    padding: 18px;
+    border-radius: 12px;
+    font-size: 20px;
+    cursor: pointer;
+    background: #31518e;
+    color: white;
+}
+
+.opcion:hover {
+    background: #4771bd;
+    transform: scale(1.03);
+}
+
+.mensaje {
+    min-height: 35px;
+    margin: 20px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.boton-siguiente {
+    display: none;
+    border: none;
+    padding: 13px 25px;
+    border-radius: 10px;
+    background: #31c48d;
+    color: white;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+/* RESULTADO */
+.resultado {
+    margin-top: 25px;
+    padding: 25px;
+    border-radius: 15px;
+    background: rgba(255,255,255,0.1);
+    display: none;
+}
+
+.resultado h3 {
+    font-size: 28px;
+    margin-bottom: 12px;
+}
+
+/* RESPONSIVE */
+@media(max-width:600px) {
+    header h1 {
+        font-size: 30px;
+    }
+
+    .problema {
+        font-size: 27px;
+    }
+
+    .opciones {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🎮 ENTEROS QUEST</h1>
+    <p>Aprende números enteros jugando</p>
+</header>
+
+<nav>
+    <button onclick="mostrar('inicio')">🏠 Inicio</button>
+    <button onclick="mostrar('aprendizajes')">📚 Aprendizajes</button>
+    <button onclick="iniciarJuego(1)">⚔️ Batalla de Enteros</button>
+    <button onclick="iniciarJuego(2)">🧠 Desafío de Signos</button>
+    <button onclick="iniciarJuego(3)">🚀 Misión Matemática</button>
+</nav>
+
+<!-- INICIO -->
+<section id="inicio" class="seccion activa">
+
+    <div class="hero">
+        <h2>¡Bienvenido a Enteros Quest! 🎯</h2>
+
+        <p>
+            Pon a prueba tus conocimientos de números enteros
+            mediante tres juegos diseñados para estudiantes de secundaria.
+        </p>
+
+        <button class="boton-principal" onclick="mostrar('aprendizajes')">
+            Ver aprendizajes 📚
+        </button>
+    </div>
+
+</section>
+
+<!-- APRENDIZAJES -->
+<section id="aprendizajes" class="seccion">
+
+    <h2>📚 ¿Qué aprenderás?</h2>
+
+    <div class="tarjetas">
+
+        <div class="tarjeta">
+            <h3>🔢 Números enteros</h3>
+            <p>
+                Reconocer números positivos, negativos y el cero
+                y ubicarlos correctamente.
+            </p>
+        </div>
+
+        <div class="tarjeta">
+            <h3>➕➖ Suma y resta</h3>
+            <p>
+                Resolver operaciones con números enteros
+                utilizando correctamente sus signos.
+            </p>
+        </div>
+
+        <div class="tarjeta">
+            <h3>✖️➗ Multiplicación y división</h3>
+            <p>
+                Aplicar la regla de los signos para obtener
+                resultados correctos.
+            </p>
+        </div>
+
+        <div class="tarjeta">
+            <h3>🧮 Operaciones combinadas</h3>
+            <p>
+                Resolver ejercicios respetando la jerarquía
+                de las operaciones.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- JUEGO -->
+<section id="juego" class="seccion">
+
+    <div class="juego">
+
+        <h2 id="tituloJuego">Juego</h2>
+        <p id="aprendizajeJuego"></p>
+
+        <div class="info">
+            <span>⭐ Puntaje: <b id="puntaje">0</b></span>
+            <span>❤️ Vidas: <b id="vidas">3</b></span>
+            <span>🎯 Pregunta: <b id="numeroPregunta">1</b>/10</span>
+        </div>
+
+        <div class="problema" id="problema">
+            ...
+        </div>
+
+        <div class="opciones" id="opciones"></div>
+
+        <div class="mensaje" id="mensaje"></div>
+
+        <button class="boton-siguiente" id="siguiente" onclick="siguientePregunta()">
+            Siguiente ➡️
+        </button>
+
+        <div class="resultado" id="resultado">
+            <h3>🏆 ¡Juego terminado!</h3>
+            <p id="resultadoTexto"></p>
+            <br>
+            <button class="boton-principal" onclick="reiniciarJuego()">
+                Jugar nuevamente 🔄
+            </button>
+        </div>
+
+    </div>
+
+</section>
+
+<script>
+
+let juegoActual = 0;
+let preguntaActual = 0;
+let puntaje = 0;
+let vidas = 3;
+let respuestaCorrecta = 0;
+let respondido = false;
+
+
+/* CAMBIAR SECCIÓN */
+function mostrar(id) {
+
+    document.querySelectorAll(".seccion").forEach(seccion => {
+        seccion.classList.remove("activa");
+    });
+
+    document.getElementById(id).classList.add("activa");
+}
+
+
+/* GENERAR NÚMERO ALEATORIO */
+function numero(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
+/* INICIAR JUEGO */
+function iniciarJuego(tipo) {
+
+    juegoActual = tipo;
+    preguntaActual = 0;
+    puntaje = 0;
+    vidas = 3;
+
+    mostrar("juego");
+
+    document.getElementById("resultado").style.display = "none";
+
+    if(tipo === 1) {
+
+        document.getElementById("tituloJuego").textContent =
+            "⚔️ Batalla de Enteros";
+
+        document.getElementById("aprendizajeJuego").textContent =
+            "Aprendizaje: resolver sumas y restas con números enteros.";
+
+    }
+
+    if(tipo === 2) {
+
+        document.getElementById("tituloJuego").textContent =
+            "🧠 Desafío de Signos";
+
+        document.getElementById("aprendizajeJuego").textContent =
+            "Aprendizaje: aplicar correctamente la regla de los signos.";
+
+    }
+
+    if(tipo === 3) {
+
+        document.getElementById("tituloJuego").textContent =
+            "🚀 Misión Matemática";
+
+        document.getElementById("aprendizajeJuego").textContent =
+            "Aprendizaje: resolver operaciones combinadas respetando la jerarquía.";
+
+    }
+
+    actualizarInfo();
+    nuevaPregunta();
+}
+
+
+/* ACTUALIZAR INFORMACIÓN */
+function actualizarInfo() {
+
+    document.getElementById("puntaje").textContent = puntaje;
+    document.getElementById("vidas").textContent = vidas;
+    document.getElementById("numeroPregunta").textContent =
+        Math.min(preguntaActual + 1, 10);
+}
+
+
+/* NUEVA PREGUNTA */
+function nuevaPregunta() {
+
+    respondido = false;
+
+    document.getElementById("mensaje").textContent = "";
+    document.getElementById("siguiente").style.display = "none";
+
+    let pregunta;
+
+    if(juegoActual === 1) {
+        pregunta = generarSumaResta();
+    }
+
+    if(juegoActual === 2) {
+        pregunta = generarMultiplicacionDivision();
+    }
+
+    if(juegoActual === 3) {
+        pregunta = generarCombinada();
+    }
+
+    respuestaCorrecta = pregunta.respuesta;
+
+    document.getElementById("problema").textContent =
+        pregunta.texto;
+
+    crearOpciones(respuestaCorrecta);
+}
+
+
+/* JUEGO 1 */
+function generarSumaResta() {
+
+    let a = numero(-20,20);
+    let b = numero(-20,20);
+
+    let suma = Math.random() < 0.5;
+
+    let respuesta;
+
+    if(suma) {
+        respuesta = a + b;
+
+        return {
+            texto: `${formatear(a)} + ${formatear(b)} = ?`,
+            respuesta: respuesta
+        };
+    }
+
+    respuesta = a - b;
+
+    return {
+        texto: `${formatear(a)} − ${formatear(b)} = ?`,
+        respuesta: respuesta
+    };
+}
+
+
+/* JUEGO 2 */
+function generarMultiplicacionDivision() {
+
+    let a = numero(-10,10);
+
+    if(a === 0) a = 2;
+
+    let b = numero(-10,10);
+
+    if(b === 0) b = 3;
+
+    let multiplicacion = Math.random() < 0.6;
+
+    if(multiplicacion) {
+
+        return {
+            texto: `${formatear(a)} × ${formatear(b)} = ?`,
+            respuesta: a * b
+        };
+    }
+
+    /*
+    Para que la división siempre tenga resultado entero,
+    primero construimos el dividendo.
+    */
+
+    let divisor = b;
+    let resultado = numero(-10,10);
+
+    if(resultado === 0) resultado = 2;
+
+    let dividendo = divisor * resultado;
+
+    return {
+        texto: `${formatear(dividendo)} ÷ ${formatear(divisor)} = ?`,
+        respuesta: resultado
+    };
+}
+
+
+/* JUEGO 3 */
+function generarCombinada() {
+
+    let a = numero(-10,10);
+    let b = numero(-8,8);
+    let c = numero(-5,5);
+
+    if(b === 0) b = 2;
+    if(c === 0) c = -2;
+
+    let respuesta = a + b * c;
+
+    return {
+        texto: `${formatear(a)} + (${formatear(b)} × ${formatear(c)}) = ?`,
+        respuesta: respuesta
+    };
+}
+
+
+/* FORMATO DE NÚMEROS */
+function formatear(n) {
+
+    if(n < 0) {
+        return `(${n})`;
+    }
+
+    return n;
+}
+
+
+/* CREAR OPCIONES */
+function crearOpciones(correcta) {
+
+    let opciones = [correcta];
+
+    while(opciones.length < 4) {
+
+        let variacion = numero(-10,10);
+        let opcion = correcta + variacion;
+
+        if(!opciones.includes(opcion)) {
+            opciones.push(opcion);
+        }
+    }
+
+    opciones.sort(() => Math.random() - 0.5);
+
+    let contenedor = document.getElementById("opciones");
+
+    contenedor.innerHTML = "";
+
+    opciones.forEach(opcion => {
+
+        let boton = document.createElement("button");
+
+        boton.className = "opcion";
+        boton.textContent = opcion;
+
+        boton.onclick = function() {
+            comprobar(opcion, boton);
+        };
+
+        contenedor.appendChild(boton);
+    });
+}
+
+
+/* COMPROBAR RESPUESTA */
+function comprobar(respuesta, boton) {
+
+    if(respondido) return;
+
+    respondido = true;
+
+    let botones = document.querySelectorAll(".opcion");
+
+    botones.forEach(b => {
+        b.disabled = true;
+    });
+
+    if(respuesta === respuestaCorrecta) {
+
+        puntaje += 10;
+
+        document.getElementById("mensaje").textContent =
+            "✅ ¡Correcto! Excelente trabajo.";
+
+    } else {
+
+        vidas--;
+
+        document.getElementById("mensaje").textContent =
+            `❌ Incorrecto. La respuesta era ${respuestaCorrecta}.`;
+    }
+
+    actualizarInfo();
+
+    if(preguntaActual < 9 && vidas > 0) {
+
+        document.getElementById("siguiente").style.display =
+            "inline-block";
+
+    } else {
+
+        terminarJuego();
+    }
+}
+
+
+/* SIGUIENTE PREGUNTA */
+function siguientePregunta() {
+
+    preguntaActual++;
+
+    nuevaPregunta();
+    actualizarInfo();
+}
+
+
+/* TERMINAR */
+function terminarJuego() {
+
+    document.getElementById("siguiente").style.display = "none";
+
+    let mensaje;
+
+    if(puntaje >= 90) {
+        mensaje = "🌟 ¡Excelente! Dominas muy bien los números enteros.";
+    }
+    else if(puntaje >= 70) {
+        mensaje = "👏 ¡Muy bien! Tienes un buen dominio del tema.";
+    }
+    else if(puntaje >= 50) {
+        mensaje = "👍 Vas por buen camino. Sigue practicando.";
+    }
+    else {
+        mensaje = "💪 No te rindas. Practicar te ayudará a mejorar.";
+    }
+
+    document.getElementById("resultadoTexto").innerHTML =
+        `
+        Obtuviste <strong>${puntaje} puntos</strong>.<br><br>
+        ${mensaje}<br><br>
+        📚 Aprendizaje trabajado: ${document.getElementById("aprendizajeJuego").textContent}
+        `;
+
+    document.getElementById("resultado").style.display = "block";
+}
+
+
+/* REINICIAR */
+function reiniciarJuego() {
+
+    iniciarJuego(juegoActual);
+}
+
+</script>
+
+</body>
+</html>
